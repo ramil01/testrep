@@ -23,10 +23,11 @@ public class Main {
 
         String sql_select = "Select * From user_dto";
 
-        stmt = conn.createStatement();
+        stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
         results = stmt.executeQuery(sql_select);
 
         outputInJson();
+        results.beforeFirst();
 
         CSVWriter writer = new CSVWriter(new FileWriter("D://output.csv"));
         ResultSetMetaData mData = results.getMetaData();
@@ -47,6 +48,7 @@ public class Main {
         }
         writer.flush();
         System.out.println("Data entered");
+
     }
 
     public static void outputInJson() throws IOException, SQLException {
